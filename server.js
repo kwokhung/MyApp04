@@ -1,7 +1,12 @@
-var http = require("http");
-var port = process.env.PORT || 1337;
+var express = require('express');
+var app = express();
 
-http.createServer(function (req, res) {
-    res.writeHead(200, { "Content-Type": "text/html" });
-    res.end("<h1>My Server 04 (v0.1.3)</h1><br />Node version: " + process.version + "<br />");
-}).listen(port);
+app.get('/hello.txt', function (req, res) {
+    var body = 'Hello World';
+    res.setHeader('Content-Type', 'text/plain');
+    res.setHeader('Content-Length', body.length);
+    res.end(body);
+});
+
+app.listen(process.env.PORT || 3000);
+console.log('Listening on port ' + (process.env.PORT || 3000));
