@@ -2,7 +2,7 @@
   "name": "MyApp04",
   "version": "0.0.0",
   "description": "My App 04",
-  "main": "app.js",
+  "main": "app01.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app01.js"
