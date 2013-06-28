@@ -1,4 +1,4 @@
-var express = require("express");
+﻿var express = require("express");
 var app = express();
 
 //app.enable("jsonp callback");
@@ -20,7 +20,7 @@ app.get("/test02", function (req, res) {
 });
 
 app.get("/test03", function (req, res) {
-    res.jsonp({ hello: "everybody" });
+    res.jsonp({ "analysis": "恒生指數收跌 0.1% 至 19,788 點。，在計及銀河娛樂 (27) 的 58 億元股份配售後，市場成交金額增至 436 億元水平。<br />恒生指数收跌 0.1% 至 19,788 点。，在计及银河娱乐 (27) 的 58 亿元股份配售後，市场成交金额增至 436 亿元水平。", "errCode": "0", "errMsg": "Market Outlook information retrieval success.", "status": "true", "timeDate": "20130628" });
 });
 
 app.listen(process.env.PORT || 3000);
