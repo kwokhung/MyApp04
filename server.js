@@ -8,5 +8,9 @@ app.get('/hello.txt', function (req, res) {
     res.end(body);
 });
 
+app.get('/hello', function (req, res) {
+    res.send('Hello there');
+});
+
 app.listen(process.env.PORT || 3000);
 console.log('Listening on port ' + (process.env.PORT || 3000));
