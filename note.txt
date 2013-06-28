@@ -1,0 +1,6 @@
+makecert -sky exchange -r -n "CN=kwokhung" -pe -a sha1 -len 2048 -ss My "kwokhung.cer"
+Import-AzurePublishSettingsFile "C:\Users\itdckhb\Downloads\Windows Azure MSDN - Visual Studio Professional-6-26-2013-credentials.publishsettings"
+[System.Net.WebRequest]::DefaultWebProxy.Credentials = [System.Net.CredentialCache]::DefaultCredentials
+Get-AzureServiceProjectRoleRuntime
+Start-AzureEmulator -Launch
+Stop-AzureEmulator
