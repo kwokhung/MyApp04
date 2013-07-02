@@ -44,7 +44,11 @@ app.get("/test04", function (req, res) {
         "content": {
             "data": [
                 { "id": 1, "headline": "HKD rises; spot USD T/T rate at 7.7564", "date": "20130702141619" },
-                { "id": 2, "headline": "MTR CORPORATION (00066.HK) target cut to $32 by GS", "date": "20130702141619" }
+                { "id": 2, "headline": "MTR CORPORATION (00066.HK) target cut to $32 by GS", "date": "20130702141619" },
+                { "id": 3, "headline": "新西蘭2月房價指數按月升7.6% 逼近紀錄高位", "date": "20130702170401" },
+                { "id": 4, "headline": "港鐵(00066.HK)今年或受累物業利潤跌 目標價34元", "date": "20130702170401" },
+                { "id": 5, "headline": "中国建筑 (3311) 估值接近合理水平，将评级下调至持有", "date": "20130702170454" },
+                { "id": 6, "headline": "恒生指数昨整日徘徊在升与跌之间，并无明显方向", "date": "20130702170454" }
             ]
         }
     })
