@@ -55,7 +55,9 @@ app.get("/test03", function (req, res) {
 });
 
 app.get("/test04", function (req, res) {
-    res.json({
+    app.set("jsonp callback name", "callback");
+
+    res.jsonp({
         "status": "true",
         "errCode": "0",
         "errMsg": "Press Release information retrieval succeeded.",
