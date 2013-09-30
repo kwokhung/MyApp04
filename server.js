@@ -21,6 +21,11 @@ app.use(function (err, req, res, next) {
     res.render("error", { error: err });
 });
 
+app.get("/weixin", function (req, res) {
+    res.writeHead(401);
+    res.end('Invalid signature');
+});
+
 app.get("/test01", function (req, res) {
     var body = "Hello World";
     res.setHeader("Content-Type", "text/plain");
