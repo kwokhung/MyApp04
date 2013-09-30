@@ -22,7 +22,7 @@ app.use(function (err, req, res, next) {
 });
 
 app.get("/weixin", function (req, res) {
-    res.writeHead(200);
+    res.status(401);
     res.end("Signature is invalid");
 });
 
