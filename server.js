@@ -1,4 +1,6 @@
 ﻿var express = require("express");
+var crypto = require("crypto");
+
 var app = express();
 
 //app.enable("jsonp callback");
@@ -19,11 +21,6 @@ app.use(function (err, req, res, next) {
 app.use(function (err, req, res, next) {
     res.status(500);
     res.render("error", { error: err });
-});
-
-app.get("/weixin", function (req, res) {
-    res.status(401);
-    res.end("Signature is invalid");
 });
 
 app.get("/test01", function (req, res) {
@@ -99,6 +96,43 @@ app.get("/test05", function (req, res) {
             res.jsonp({ "service": req.query.service, "analysis": "恒生指數收跌 0.1% 至 19,788 點。，在計及銀河娛樂 (27) 的 58 億元股份配售後，市場成交金額增至 436 億元水平。<br />恒生指数收跌 0.1% 至 19,788 点。，在计及银河娱乐 (27) 的 58 亿元股份配售後，市场成交金额增至 436 亿元水平。", "errCode": "0", "errMsg": "Market Outlook information retrieval success.", "status": "true", "timeDate": "20130628" });
             break;
     }
+});
+
+app.get("/wechat", function (req, res) {
+    if (crypto.createHash("sha1").update([
+        "keyboardcat123",
+        req.query.timestamp,
+        req.query.nonce
+    ].sort().join("")).digest("hex") == req.query.signature) {
+        res.writeHead(200);
+        res.end(req.query.echostr);
+    }
+    else {
+        res.writeHead(401);
+        res.end("Signature is invalid");
+    };
+});
+
+app.post("/wechat", function (req, res) {
+    if (crypto.createHash("sha1").update([
+        "keyboardcat123",
+        req.query.timestamp,
+        req.query.nonce
+    ].sort().join("")).digest("hex") == req.query.signature) {
+        res.type("xml");
+        res.send(
+            "<xml>" +
+                 "<ToUserName><![CDATA[" + "Brian" + "]]></ToUserName>" +
+                 "<FromUserName><![CDATA[" + "webot" + "]]></FromUserName>" +
+                 "<CreateTime>" + Math.round(new Date().getTime() / 1000) + "</CreateTime>" +
+                 "<MsgType><![CDATA[" + "text" + "]]></MsgType>" +
+                 "<Content><![CDATA[" + "echo: hello" + "]]></Content>" +
+            "</xml>");
+    }
+    else {
+        res.writeHead(401);
+        res.end("Signature is invalid");
+    };
 });
 
 app.listen(process.env.PORT || 3000);
