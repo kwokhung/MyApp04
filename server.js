@@ -1,5 +1,6 @@
 ﻿var express = require("express");
 var crypto = require("crypto");
+var xml2js = require("xml2js");
 
 var app = express();
 
@@ -119,6 +120,24 @@ app.post("/wechat", function (req, res) {
         req.query.timestamp,
         req.query.nonce
     ].sort().join("")).digest("hex") == req.query.signature) {
+        var buf = "";
+
+        req.setEncoding("utf8");
+
+        req.on("data", function (chunk) {
+            buf += chunk;
+        });
+
+        req.on("end", function () {
+            xml2js.parseString(buf, function (err, json) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(json);
+                }
+            });
+        });
+
         res.type("xml");
         res.send(
             "<xml>" +
