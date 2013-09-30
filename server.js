@@ -22,8 +22,8 @@ app.use(function (err, req, res, next) {
 });
 
 app.get("/weixin", function (req, res) {
-    res.writeHead(401);
-    res.end('Invalid signature');
+    res.writeHead(200);
+    res.end("Signature is invalid");
 });
 
 app.get("/test01", function (req, res) {
