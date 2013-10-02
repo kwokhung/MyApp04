@@ -1,8 +1,0 @@
-makecert -sky exchange -r -n "CN=kwokhung" -pe -a sha1 -len 2048 -ss My "kwokhung.cer"
-Import-AzurePublishSettingsFile "C:\Users\itdckhb\Downloads\Windows Azure MSDN - Visual Studio Professional-6-26-2013-credentials.publishsettings"
-[System.Net.WebRequest]::DefaultWebProxy.Credentials = [System.Net.CredentialCache]::DefaultCredentials
-Get-AzureServiceProjectRoleRuntime
-Start-AzureEmulator -Launch
-Stop-AzureEmulator
-
-D:\adt\adt-bundle-windows-x86_64-20130522\sdk\tools\emulator -avd AVD_for_Nexus_One_by_Google -dns-server 8.8.8.8 -verbose
