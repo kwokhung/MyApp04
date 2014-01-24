@@ -131,7 +131,7 @@ app.get("/test05", function (req, res) {
     }
 });
 
-app.get("/testWebhat", function (req, res) {
+app.get("/testWechat", function (req, res) {
     httpRequest({
         host: "api.weixin.qq.com",
         port: 443,
@@ -169,7 +169,6 @@ app.get("/testWebhat", function (req, res) {
             }
         });
     });
-    res.send(util.inspect(process, { showHidden: false, depth: 2 }));
 });
 
 app.get("/wechat", function (req, res) {
