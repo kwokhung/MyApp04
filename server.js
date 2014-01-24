@@ -1,6 +1,7 @@
 ﻿var express = require("express");
 var crypto = require("crypto");
 var xml2js = require("xml2js");
+var util = require("util");
 
 var app = express();
 
@@ -120,33 +121,34 @@ app.post("/wechat", function (req, res) {
         req.query.timestamp,
         req.query.nonce
     ].sort().join("")).digest("hex") == req.query.signature) {
-        var buf = "";
+        var requestDataXml = "";
 
         req.setEncoding("utf8");
 
-        req.on("data", function (chunk) {
-            buf += chunk;
+        req.on("data", function (data) {
+            requestDataXml += data;
         });
 
         req.on("end", function () {
-            xml2js.parseString(buf, function (err, json) {
-                if (err) {
-                    console.log(err);
+            xml2js.parseString(requestDataXml, function (error, requestDataJson) {
+                if (error) {
+                    res.writeHead(401);
+                    res.end(util.inspect(error, { showHidden: false, depth: 2 }));
                 } else {
-                    console.log(json);
+                    console.log(util.inspect(requestDataJson, { showHidden: false, depth: 6 }));
+
+                    res.type("xml");
+                    res.send(
+                       "<xml>" +
+                             "<ToUserName><![CDATA[" + "Brian" + "]]></ToUserName>" +
+                             "<FromUserName><![CDATA[" + "webot" + "]]></FromUserName>" +
+                             "<CreateTime>" + Math.round(new Date().getTime() / 1000) + "</CreateTime>" +
+                             "<MsgType><![CDATA[" + "text" + "]]></MsgType>" +
+                             "<Content><![CDATA[" + "echo: hello" + "]]></Content>" +
+                        "</xml>");
                 }
             });
         });
-
-        res.type("xml");
-        res.send(
-            "<xml>" +
-                 "<ToUserName><![CDATA[" + "Brian" + "]]></ToUserName>" +
-                 "<FromUserName><![CDATA[" + "webot" + "]]></FromUserName>" +
-                 "<CreateTime>" + Math.round(new Date().getTime() / 1000) + "</CreateTime>" +
-                 "<MsgType><![CDATA[" + "text" + "]]></MsgType>" +
-                 "<Content><![CDATA[" + "echo: hello" + "]]></Content>" +
-            "</xml>");
     }
     else {
         res.writeHead(401);
