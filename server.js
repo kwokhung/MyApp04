@@ -25,6 +25,10 @@ app.use(function (err, req, res, next) {
     res.render("error", { error: err });
 });
 
+app.get("/process", function (req, res) {
+    res.send(util.inspect(process, { showHidden: false, depth: 2 }));
+});
+
 app.get("/test01", function (req, res) {
     var body = "Hello World";
     res.setHeader("Content-Type", "text/plain");
