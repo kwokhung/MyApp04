@@ -132,6 +132,43 @@ app.get("/test05", function (req, res) {
 });
 
 app.get("/testWebhat", function (req, res) {
+    httpRequest({
+        host: "api.weixin.qq.com",
+        port: 443,
+        path: "/cgi-bin/token?grant_type=client_credential&appid=wxe5653dce80baa14e&secret=da9e92a7245fdfb6bbd0b5c271908c21",
+        method: "GET",
+        headers: {
+            "Accept": "application/json"
+        }
+    }, function (responseData) {
+        var access_token = responseData.access_token;
+
+        httpRequest({
+            host: "api.weixin.qq.com",
+            port: 443,
+            path: "/cgi-bin/user/get?access_token=" + access_token,
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        }, function (responseData) {
+            if (responseData.count > 0) {
+                responseData.data.openid.forEach(function (item) {
+                    httpRequest({
+                        host: "api.weixin.qq.com",
+                        port: 443,
+                        path: "/cgi-bin/user/info?access_token=" + access_token + "&openid=" + item + "&lang=zh_CN",
+                        method: "GET",
+                        headers: {
+                            "Accept": "application/json"
+                        }
+                    }, function (responseData) {
+                        res.send(item + ": " + responseData.nickname);
+                    });
+                });
+            }
+        });
+    });
     res.send(util.inspect(process, { showHidden: false, depth: 2 }));
 });
 
