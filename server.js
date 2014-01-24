@@ -2,8 +2,35 @@
 var crypto = require("crypto");
 var xml2js = require("xml2js");
 var util = require("util");
+var http = require("http");
+var https = require("https");
 
 var app = express();
+
+var httpRequest = function (options, callback) {
+    var httpReq = (options.port == 443 ? https : http).request(options, function (res) {
+        var responseData = "";
+
+        res.on("data", function (data) {
+            responseData += data;
+        });
+
+        res.on("end", function () {
+            if (res.statusCode == "200") {
+                callback(JSON.parse(responseData));
+            }
+            else {
+                console.log("Status Code:", res.statusCode);
+            }
+        });
+    });
+
+    httpReq.on("error", function (error) {
+        console.error(error);
+    });
+
+    httpReq.end();
+}
 
 //app.enable("jsonp callback");
 
@@ -102,6 +129,10 @@ app.get("/test05", function (req, res) {
             res.jsonp({ "service": req.query.service, "analysis": "恒生指數收跌 0.1% 至 19,788 點。，在計及銀河娛樂 (27) 的 58 億元股份配售後，市場成交金額增至 436 億元水平。<br />恒生指数收跌 0.1% 至 19,788 点。，在计及银河娱乐 (27) 的 58 亿元股份配售後，市场成交金额增至 436 亿元水平。", "errCode": "0", "errMsg": "Market Outlook information retrieval success.", "status": "true", "timeDate": "20130628" });
             break;
     }
+});
+
+app.get("/testWebhat", function (req, res) {
+    res.send(util.inspect(process, { showHidden: false, depth: 2 }));
 });
 
 app.get("/wechat", function (req, res) {
